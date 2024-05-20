@@ -4,6 +4,8 @@
         <v-card-title>Drawing App</v-card-title>
         <v-card-text>
           <v-btn @click="clearCanvas">Clear</v-btn>
+          <v-btn @click="saveCanvas('png')">Save as PNG</v-btn>
+          <v-btn @click="saveCanvas('jpeg')">Save as JPEG</v-btn>
           <v-divider></v-divider>
           <div class="canvas-container">
             <canvas 
@@ -64,6 +66,14 @@
       clearCanvas() {
         this.ctx.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
       },
+      saveCanvas(format) {
+        const canvas = this.$refs.canvas;
+        const dataURL = canvas.toDataURL(`image/${format}`);
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = `drawing.${format}`;
+        link.click();
+      },
       resizeCanvas() {
         const canvas = this.$refs.canvas;
         canvas.width = canvas.clientWidth;
@@ -89,7 +99,7 @@
     width: 100%;
     height: 500px;
     position: relative;
-    background: #FFFF;
+    background-color: white;
   }
   canvas {
     width: 100%;
